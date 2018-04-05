@@ -347,7 +347,7 @@
                         <p>3 down-sample &amp; up-sample layers</p>
                     </section>
                     <section>
-                        <h4>Model Varians</h4>
+                        <h4>Model Variants</h4>
                         <ul>
                             <li class="fragment"><b>Control (No Aux Image Layer):</b> Our control model. The base Custom SegNet Variant previously described. Takes RGB, NIR, and NDVI image layers as input.</li>
                             <li class="fragment"><b>Gradient Model:</b> A modified version of the control that takes an additional layer generated via the Gradient process previously described.</li>
@@ -393,28 +393,109 @@
                     </section>
                     <section>
                         <h4>Analysis: Evaluation Accuracy</h4>
-                        <p><b>Results:</b> <span class="fragment">Not good<mark class="fragment">?</mark></span>
-                        <table class="fragment">
+                        <table>
                             <tr>
-                                <td>3x3 Convolutional Kernel</td>
-                                <td>71.61%</td>
+                                <th>Model Type</th>
+                                <th>Accuracy</th>
                             </tr>
                             <tr>
-                                <td>5x5 Convolutional Kernel</td>
-                                <td>73.33%</td>
+                                <td>Control (No Aux Image Layer)</td>
+                                <td>92.3680%</td>
+                            </tr>
+                            <tr>
+                                <td>Regression</td>
+                                <td>86.0488%</td>
+                            </tr>
+                            <tr>
+                                <td>Gradient</td>
+                                <td class="fragment highlight-blue">93.3380%</td>
                             </tr>
                         </table>
+                        <p class="fragment"><span class="fragment highlight-red">93%</span> of the data set is Not-Water</p>
                     </section>
                     <section>
-                        <h4>Analysis: Accuracy of training labels</h4>
-                        <p>Observed that the model often produces better representations of features than the NASS classifications</p>
+                        <h4>Analysis: Per-Class Evaluation Accuracy</h4>
+                        <table>
+                            <tr>
+                                <th>Model Type</th>
+                                <th>Not-Water Accuracy</th>
+                                <th>Water Accuracy</th>
+                            </tr>
+                            <tr>
+                                <td>Control (No Aux Image Layer)</td>
+                                <td>96.8892%</td>
+                                <td>37.6272%</td>
+                            </tr>
+                            <tr>
+                                <td>Regression</td>
+                                <td>89.7641%</td>
+                                <td class="fragment highlight-blue">40.8237%</td>
+                            </tr>
+                            <tr>
+                                <td>Gradient</td>
+                                <td class="fragment highlight-blue">98.5329%</td>
+                                <td>30.2602%</td>
+                            </tr>
+                        </table>
+                        <p><span class="fragment highlight-blue">93%</span> of the data set is Not-Water</p>
                     </section>
                     <section>
-                        <img data-src="images/classification_better_than_labels_1.png">
-                        <img data-src="images/classification_better_than_labels_2.png">
+                        <h4>Analysis: Gradient Model</h4>
+                        <p>Per-class Not-Water accuracty at the cost of per-class water accuracy.</p>
+                        <img data-src="images/grad_104_loss_of_water_accuracy.png"/>
                     </section>
                     <section>
-                        <img data-src="images/bad_image_labels.png">
+                        <h4>Analysis: Regression Model</h4>
+                        <p>Per-class Water Accuracy at the cost of per-class not-water accuracy.</p>
+                    </section>
+                    <section>
+                        <div>
+                            <span><small style="vertical-align:middle">Control</small></span>
+                            <img style="vertical-align:middle"  data-src="images/control_114_missing_secondary_water_source.png" onload="this.width/=1.2;this.onload=null;"/>
+                        </div>
+                        <div>
+                            <span><small style="vertical-align:middle">Regression</small></span>
+                            <img style="vertical-align:middle"  data-src="images/regression_114_missing_secondary_water_source.png" onload="this.width/=1.2;this.onload=null;"/>
+                        </div>
+                        <div>
+                            <span><small style="vertical-align:middle">Gradient</small></span>
+                            <img style="vertical-align:middle"  data-src="images/gradient_114_missing_secondary_water_source.png" onload="this.width/=1.2;this.onload=null;"/>
+                        </div>
+                    </section>
+                    <section>
+                        <h4>Analysis: Regression Model</h4>
+                        <p>The regression model's water classifications tend to respond strongly to places where there is lots of vegetation along the coast of a water body.</p>
+                    </section>
+                    <section>
+                        <div>
+                            <span><small style="vertical-align:middle">Control</small></span>
+                            <img style="vertical-align:middle"  data-src="images/control_12_strong_waterline_response.png" onload="this.width/=1.2;this.onload=null;"/>
+                        </div>
+                        <div>
+                            <span><small style="vertical-align:middle">Regression</small></span>
+                            <img style="vertical-align:middle"  data-src="images/reg_12_strong_waterline_response.png" onload="this.width/=1.2;this.onload=null;"/>
+                        </div>
+                        <div>
+                            <span><small style="vertical-align:middle">Gradient</small></span>
+                            <img style="vertical-align:middle"  data-src="images/grad_12_strong_waterline_response.png" onload="this.width/=1.2;this.onload=null;"/>
+                        </div>
+                    </section>
+                    <section>
+                        <h4>Analysis: Regression Model</h4>
+                        <table>
+                            <tr class="fragment">
+                                <td>Control</td>
+                                <td>Underestimates water areas</td>
+                            </tr>
+                            <tr class="fragment">
+                                <td>Gradient</td>
+                                <td>Further underestimates water areas</td>
+                            </tr>
+                            <tr class="fragment">
+                                <td>Regression</td>
+                                <td>Vastly overestimates water areas</td>
+                            </tr>
+                        </table>
                     </section>
                 </section>
                 <section>
