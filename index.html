@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Exploring the Usefulness of Adding Auxilary Preprocessed Image Layers With Convolutional Neural Networks</title>
+		<title>Exploring the Usefulness of Adding Auxiliary Preprocessed Image Layers With Convolutional Neural Networks</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/white.css">
@@ -25,7 +25,7 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-                    <h3>Exploring the Usefulness of Adding Auxilary Preprocessed Image Layers With Convolutional Neural Networks</h3>
+                    <h3>Exploring the Usefulness of Adding Auxiliary Preprocessed Image Layers With Convolutional Neural Networks</h3>
                     <p>
                         <br>
                         Jordan Goetze
@@ -101,7 +101,7 @@
                                 Tracking changes in land use 
                             </li>
                             <li class="fragment">
-                                Tracking changes in forestry and vegitation
+                                Tracking changes in forestry and vegetation
                             </li>
                         </ul>
                     </section>
@@ -130,7 +130,7 @@
                     <section>
                         <h3>Terminology</h3>
                         <p>
-                            <b>Auxilary Preprocessed Image Layer:</b> An image layer producded by performing some operation on existing image layers that were created from raw image sensor recordings.
+                            <b>Auxiliary Preprocessed Image Layer:</b> An image layer produced by performing some operation on existing image layers that were created from raw image sensor recordings.
                         </p>
                         <p class="fragment">Example: Normalized Difference Vegetation Index</p>
                         <p class="fragment">Generated using the raw Red and Near-Inrared image layers.</p>
@@ -143,10 +143,10 @@
                     <section>
                         <h4>Introduction: Technology, Imagery and Data</h4>
                         <ul>
-                            <li class="fragment">Cost of satelites and drones is decreasing</li>
+                            <li class="fragment">Cost of satellites and drones is decreasing</li>
                             <li class="fragment">Cost of orthoimagery decreasing</li>
-                            <li class="fragment">Ammount of availiable orthoimagry increasing</li>
-                            <li class="fragment">Ammount and quality of labeled or annotated orthoimagery has not kept pace</li>
+                            <li class="fragment">Amount of availiable orthoimagry increasing</li>
+                            <li class="fragment">Amount and quality of labeled or annotated orthoimagery has not kept pace</li>
                         </ul>
                     </section>
                     <section>
@@ -154,7 +154,7 @@
                         <b>National Agricultural Imagery Program (NAIP):</b>
                         <ul>
                             <li class="fragment">Provides imagery spanning the majority of the continental United States</li>
-                            <li class="fragment">Imagery captured at 1 meter Ground Sample Distantce (GSD)</li>
+                            <li class="fragment">Imagery captured at 1 meter Ground Sample Distance (GSD)</li>
                             <li class="fragment">Imagery consists of red, green, blue, and near-infrared image layers</li>
                         </ul>
                     </section>
@@ -202,12 +202,12 @@
                     <section>
                         <h4>Previous Work</h2>
                         <ul>
-                            <li class="fragment">Focused on identifiying roads or buildings.</li>
+                            <li class="fragment">Focused on identifying roads or buildings.</li>
                             <li class="fragment">Apparently little research into identifying crops or other agricultural features</li>
-                            <li class="fragment">Per-pixel classifications of orthoimagery fall under the realm of scene recoagnition.
+                            <li class="fragment">Per-pixel classifications of orthoimagery fall under the realm of scene recognition.
                                 <ul><li class="fragment">Orthoimagery features tend to lack well defined boundaries</li></ul> 
                             </li>
-                            <li class="fragment">The SegNet model provides a reletively efficient and effective approach to scene recoagnition.</li>
+                            <li class="fragment">The SegNet model provides a relatively efficient and effective approach to scene recognition.</li>
                         <ul>
                     </section>
                     <section>
@@ -249,7 +249,7 @@
                         </table>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxilary Image Layers: Gradient Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Gradient Based Image Layer</h4>
                         <p class="fragment">
                             Using a sliding window, a gradient is computed by taking the scaled value between 0 and 255 of 
                             the largest difference in pixel intensity in the window.
@@ -261,7 +261,7 @@
                         </p>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxilary Image Layers: Gradient Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Gradient Based Image Layer</h4>
                         <ul>
                             <li class="fragment"><b>Input Image Layer:</b> NDVI</li>
                             <li class="fragment"><b>Window Size:</b> 8x8 pixels</li>
@@ -269,7 +269,7 @@
                         </ul>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxilary Image Layers: Regression Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Regression Based Image Layer</h4>
                         <p class="fragment">
                             Using a sliding window, take the slope of the line calculated by taking the linear-regression between
                             two bands using the pixels that fall within the window.
@@ -281,7 +281,7 @@
                         </p>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxilary Image Layers: Regression Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Regression Based Image Layer</h4>
                         <p class="fragment">
                             Implementation based off of the paper <em>Multi-scalar Analysis of Geospacial Agricultural 
                             Data for Sustainabiliy</em> which introduces a means of allowing larger sliding windows without 
@@ -289,7 +289,7 @@
                         </p>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxilary Image Layers: Regression Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Regression Based Image Layer</h4>
                         <ul>
                             <li class="fragment"><b>Input Image Layer 1:</b> Red</li>
                             <li class="fragment"><b>Input Image Layer 2:</b> NIR</li>
@@ -319,7 +319,7 @@
                         <h4>Model: Convolutions and Kernel Size</h4>
                         <img data-src="images/convolution_schematic.gif"/>
                         <p>Example with 3x3 kernel size</p>
-                        <p class="fragment">Kernel size impacts how fine of features will be recoagnized.</p>
+                        <p class="fragment">Kernel size impacts how fine of features will be recognized.</p>
                         <p class="fragment">Resulting image is called a feature map or feature window.</p>
                         <!-- Smaller kernel size = finer features and more noise image noise -->
                         <!-- Larger kernel size = less fine features and less noise -->
@@ -441,7 +441,7 @@
                     </section>
                     <section>
                         <h4>Analysis: Gradient Model</h4>
-                        <p>Per-class Not-Water accuracty at the cost of per-class water accuracy.</p>
+                        <p>Per-class Not-Water accuracy at the cost of per-class water accuracy.</p>
                         <img data-src="images/grad_104_loss_of_water_accuracy.png"/>
                     </section>
                     <section>
