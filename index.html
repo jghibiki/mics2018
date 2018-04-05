@@ -1,0 +1,447 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Exploring the Usefulness of Adding Auxilary Preprocessed Image Layers With Convolutional Neural Networks</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+                    <h3>Exploring the Usefulness of Adding Auxilary Preprocessed Image Layers With Convolutional Neural Networks</h3>
+                    <p>
+                        <br>
+                        Jordan Goetze
+                        <br>
+                        Dr. Anne Denton
+                        <br>
+                        <br>
+                        <small>
+                            Dept. of Computer Science<br>
+                            North Dakota State University<br>
+                            Fargo, North Dakota 58103<br>
+                            <br>
+                            jordan.goetze@ndsu.edu<br>
+                            anne.denton@ndsu.edu
+                        </small>
+                    </p>
+                </section>
+                <section >
+                    <h2>Overview</h2>
+                    <ul>
+                        <li class="fragment">
+                            Terminology
+                        </li>
+                        <li class="fragment">
+                            Introduction 
+                        </li>
+                        <li class="fragment">
+                            Previous Work
+                        </li>
+                        <li class="fragment">
+                            Data Set Preprocessing
+                        </li>
+                        <li class="fragment">
+                            Model
+                        </li>
+                        <li class="fragment">
+                            Training &amp; Evaluation
+                        </li>
+                        <li class="fragment">
+                            Results and Observations 
+                        </li>
+                        <li class="fragment">
+                            Future Work
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <section>
+                        <h2>Terminology</h2>
+                    </section>
+                    <section>
+                        <h3>Terminology</h3>
+                        <p>
+                            <b>Per-pixel image classifications:</b> Classifying each pixel of an image.
+                        </p>
+                        <p class="fragment">Useful for:</p>
+                        <ul>
+                            <li class="fragment">Scene labeling for autonomous driving</li>
+                            <li class="fragment">Inferring relationships between objects in an image.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Terminology</h3>
+                        <p>
+                            <b>Land-Use Classification:</b> Classifications of what a given tract of land is used for.
+                        </p>
+                        <p class="fragment">Potential uses:</p>
+                        <ul>
+                            <li class="fragment">
+                                Approximating crop yields by year
+                            </li>
+                            <li class="fragment">
+                                Tracking changes in land use 
+                            </li>
+                            <li class="fragment">
+                                Tracking changes in forestry and vegitation
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Terminology</h3>
+                        <p>
+                            <b>Orthoimagery:</b> An aerial photograph where corrections have been made for various displacements such as building tilt and scale variations caused by terrain relief. 
+                        </p>
+                    </section>
+                    <section>
+                        <h3>Terminology</h3>
+                        <image style="height:50%; width:50%" data-src="images/ortho_imagery_example.png">
+                    </section>
+                    <section>
+                        <h3>Terminology</h3>
+                        <p>
+                            <b>Convolutional Neural Network (CNN):</b> a type of neural network where the connectivity pattern of it's neurons is inspired by the organization of the visual cortex of a cat.
+                        </p>
+                        <p class="fragment">Useful for:</p>
+                        <ul>
+                            <li class="fragment">Scene labeling for autonomous driving</li>
+                            <li class="fragment">Inferring relationships between objects in an image</li>
+                            <li class="fragment">Whole-image classification</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Terminology</h3>
+                        <p>
+                            <b>Auxilary Preprocessed Image Layer:</b> An image layer producded by performing some operation on existing image layers that were created from raw image sensor recordings.
+                        </p>
+                        <p class="fragment">Example: Normalized Difference Vegetation Index</p>
+                        <p class="fragment">Generated using the raw Red and Near-Inrared image layers.</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Introduction</h2>
+                    </section>
+                    <section>
+                        <h4>Introduction: Technology, Imagery and Data</h4>
+                        <ul>
+                            <li class="fragment">Cost of satelites and drones is decreasing</li>
+                            <li class="fragment">Cost of orthoimagery decreasing</li>
+                            <li class="fragment">Ammount of availiable orthoimagry increasing</li>
+                            <li class="fragment">Ammount and quality of labeled or annotated orthoimagery has not kept pace</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Introduction: Availiable Data</h4>
+                        <b>National Agricultural Imagery Program (NAIP):</b>
+                        <ul>
+                            <li class="fragment">Provides imagery spanning the majority of the continental United States</li>
+                            <li class="fragment">Imagery captured at 1 meter Ground Sample Distantce (GSD)</li>
+                            <li class="fragment">Imagery consists of red, green, blue, and near-infrared image layers</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Introduction: Availiable Data</h4>
+                        <b>National Agricultural Statistics Service (NASS) Land-Use Classifications:</b>
+                        <ul>
+                            <li class="fragment">Land-Use classifications for the continental United States</li>
+                            <li class="fragment">Low resolution accuracy compared to NAIP imagery. 
+                                <ul>
+                                    <li class="fragment">1 NASS pixel represents a 50 square meter area in the NAIP Imagery</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">Poor quality classifications</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Introduction: NASS - Mislabeled Pixels</h4>
+                        <img style="height:75%; width:50%" data-src="images/poor_labels_1.png" />
+                    </section>
+                    <section>
+                        <h4>Introduction: NASS - Clipped Organic Features</h4>
+                        <img style="height:75%; width:50%" data-src="images/poor_labels_2.png" />
+                    </section>
+                    <section>
+                        <h4>Introduction: NASS - Poor Representation of Fine Features</h4>
+                        <img style="height:50%; width:50%" data-src="images/poor_labels_3.png" />
+                    </section>
+                    <section>
+                        <h4>Introduction: What do convolutional neural networks learn?</h4>
+                        <ul>
+                            <li class="fragment">Are there certain kinds of patterns they cannot learn, or learn too slowly to be effective?</li>
+                            <li class="fragment">Does the inclusion of image layers that are generated from the original source image help or hurt the model?</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Introduction: Goal</h4>
+                        <p><em>Test whether the inclusion of several different auxilary image layers, generated from the base Red, Green, Blue, Near-Infrared(NIR), and Normalized Difference Vegetation Index(NDVI) help or hurt the classification accuracy and qualitative quality of the model's classifications.</em></p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Previous Work</h2>
+                    </section>
+                    <section>
+                        <h4>Previous Work</h2>
+                        <ul>
+                            <li class="fragment">Focused on identifiying roads or buildings.</li>
+                            <li class="fragment">Apparently little research into identifying crops or other agricultural features</li>
+                            <li class="fragment">Per-pixel classifications of orthoimagery fall under the realm of scene recoagnition.
+                                <ul><li class="fragment">Orthoimagery features tend to lack well defined boundaries</li></ul> 
+                            </li>
+                            <li class="fragment">The SegNet model provides a reletively efficient and effective approach to scene recoagnition.</li>
+                        <ul>
+                    </section>
+                    <section>
+                        <h4>Previous Work: SegNet</h4>
+                        <ul>
+                            <li class="fragment">Deep Convolutional Encoder-Decoder Network</li>
+                            <li class="fragment">Produces good results when applied to CamVid dataset.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Previous Work: SegNet Demo</h4>
+                            <iframe width="1200" height="600" data-src="https://www.youtube.com/embed/CxanE_W46ts" frameborder="0" allowfullscreen></iframe>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Data Set Preprocessing</h2>
+                    </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Data Sets</h4>
+                        <ul>
+                            <li class="fragment"><b>Images:</b> National Agricultural Imagery Program (NAIP) Imagery</li>
+                            <li class="fragment"><b>Ground Truths:</b> National Agricultural Statistics Service (NASS) Land-use classifications</li>
+                        </ul>
+                        <p class="fragment">Images clipped into 256x256 swatches</p>
+                    </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Auxilary Image Layers: Gradient Based Image Layer</h4>
+                        <p class="fragment">
+                            Using a sliding window, a gradient is computed by taking the scaled value between 0 and 255 of 
+                            the largest difference in pixel intensity in the window.
+                        </p>
+                        <br>
+                        <p class="fragment">
+                        The sliding window operates over <b>one</b> of the original image layers to produce an intensity value 
+                            for each pixel in the image, excluding a small border.
+                        </p>
+                    </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Auxilary Image Layers: Gradient Based Image Layer</h4>
+                        <ul>
+                            <li class="fragment"><b>Input Image Layer:</b> NDVI</li>
+                            <li class="fragment"><b>Window Size:</b> 8x8 pixels</li>
+                            <li class="fragment"><b>Output Image Size:</b> 248x248 pixels</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Auxilary Image Layers: Regression Based Image Layer</h4>
+                        <p class="fragment">
+                            Using a sliding window, take the slope of the line calculated by taking the linear-regression between
+                            two bands using the pixels that fall within the window.
+                        </p>
+                        <br>
+                        <p class="fragment">
+                        The sliding window operates over <b>two</b> of the original image layers to produce an intensity value 
+                            for each pixel in the image, excluding a small border.
+                        </p>
+                    </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Auxilary Image Layers: Regression Based Image Layer</h4>
+                        <p class="fragment">
+                            Implementation based off of the paper <em>Multi-scalar Analysis of Geospacial Agricultural 
+                            Data for Sustainabiliy</em> which introduces a means of allowing larger sliding windows without 
+                            the computational cost of scanning for them.
+                        </p>
+                    </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Auxilary Image Layers: Regression Based Image Layer</h4>
+                        <ul>
+                            <li class="fragment"><b>Input Image Layer 1:</b> Red</li>
+                            <li class="fragment"><b>Input Image Layer 2:</b> NIR</li>
+                            <li class="fragment"><b>Window Size:</b> 8x8 pixels</li>
+                            <li class="fragment"><b>Output Image Size:</b> 248x248 pixels</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Model</h2>
+                    </section>
+                    <section>
+                        <h4>Model: SegNet</h4>
+                        <img style="width: 200%" data-src="images/network.png"/>
+                        <p>Kernel Size 7x7</p>
+                    </section>
+                    <section>
+                        <h4>Model: Convolutions and Kernel Size</h4>
+                        <img data-src="images/convolution_schematic.gif"/>
+                        <p>Example with 3x3 kernel size</p>
+                        <p class="fragment">Kernel size impacts how fine of features will be recoagnized.</p>
+                        <p class="fragment">Resulting image is called a feature map or feature window.</p>
+                        <!-- Smaller kernel size = finer features and more noise image noise -->
+                        <!-- Larger kernel size = less fine features and less noise -->
+                    </section>
+                    <section>
+                        <h4>Model: SegNet</h4>
+                        <img style="width: 200%" data-src="images/network.png"/>
+                    </section>
+                    <section>
+                        <h4>Model: Max Pooling Operation</h4>
+                        <img data-src="images/maxpool.jpeg"/>
+                        <p>Down samples the feature window</p>
+                        <p class="fragment">SegNet stores the indices of the maximum values for later</p>
+                    </section>
+                    <section>
+                        <h4>Model: SegNet</h4>
+                        <img style="width: 200%" data-src="images/feature_window_layers.png"/>
+                        <p>Max pool + Indice Unraveling</p>    
+                        <p>Example with 4 down-sample &amp; up-sample layers</p>
+                    </section>
+                    <section>
+                        <h4>Model: SegNet Variant</h4>
+                        <img data-src="images/network.png"/>
+                        <p>Kernel Size 3x3</p>
+                        <p>3 down-sample &amp; up-sample layers</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Training &amp; Evaluation</h2>
+                    </section>
+                    <section>
+                        <h4>Training</h4>
+                        <ul>
+                            <li class="fragment">Trained on 90% of availiable image swatches
+                                <ul>
+                                    <li class="fragment">approx. 72,000 image swatches</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">Batches of 15</li>
+                            <li class="fragment">25 Epochs</li>
+                            <li class="fragment">Checkpoints are saved every 100 steps</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Evaluation</h4>
+                        <ul>
+                            <li class="fragment">Evaluation is done on the remaining 10% of availiable image swatches
+                                <ul>
+                                    <li class="fragment">approx. 8,000 image swatches</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">The checkpoint with the highest evaluation accuracy is selected</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Analysis</h2>
+                    </section>
+                    <section>
+                        <h4>Analysis: Evaluation Accuracy</h4>
+                        <p><b>Results:</b> <span class="fragment">Not good<mark class="fragment">?</mark></span>
+                        <table class="fragment">
+                            <tr>
+                                <td>3x3 Convolutional Kernel</td>
+                                <td>71.61%</td>
+                            </tr>
+                            <tr>
+                                <td>5x5 Convolutional Kernel</td>
+                                <td>73.33%</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section>
+                        <h4>Analysis: Accuracy of training labels</h4>
+                        <p>Observed that the model often produces better representations of features than the NASS classifications</p>
+                    </section>
+                    <section>
+                        <img data-src="images/classification_better_than_labels_1.png">
+                        <img data-src="images/classification_better_than_labels_2.png">
+                    </section>
+                    <section>
+                        <img data-src="images/bad_image_labels.png">
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Future Work</h2>
+                    </section>
+                    <section>
+                        <h4>Future Work</h4>
+                        <ul>
+                            <li class="fragment">K-Fold Cross Validation</li>
+                            <li class="fragment">Find a way to manage the discrepancy between the label dataset and classification
+                                <ul>
+                                    <li class="fragment">Find which fields in the NASS classifications were ground truthed
+                                        <ul>
+                                            <li class="fragment">Ground truthing is based on the June Agricultural Survey</li>
+                                            <li class="fragment">Unfortunately this information is classified.</li>
+                                        </ul>
+                                    </li>
+                                    <li class="fragment">Find a new classification data set?
+                                        <ul>
+                                            <li class="fragment">National Land Cover Database (NLCD)
+                                                <ul>
+                                                    <li class="fragment">Less focused on agriculture</li>
+                                                </ul>
+                                            </li>
+                                        <ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <h2>Thank You</h2>
+                </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+                transition: 'convex',
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+
+		</script>
+	</body>
+</html>

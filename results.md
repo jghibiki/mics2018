@@ -79,4 +79,13 @@ Per class accuracies:
 Per class pixel counts:
 11405060 895740
 
+## Gradient & Regression Binary
+Step 190, Evaluation Accuracy 0.933219, Average Time 0:00:00.958052/step, Elapsed Time 0:03:02.029945
+
+Done evaluating, completed in 200 steps
+Per class accuracies:
+98.77916468655141% 26.88146113827673%
+Per class pixel counts:
+11405060 895740
+
 
