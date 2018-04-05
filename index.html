@@ -235,6 +235,20 @@
                         <p class="fragment">Images clipped into 256x256 swatches</p>
                     </section>
                     <section>
+                        <h4>Data Set Preprocessing: Data Sets</h4>
+                        <p class="fragment">Ground Truth data simplified into two classes: Water, and Not-Water</p>
+                        <table class="fragment">
+                            <tr>
+                                <th>Not-Water</th>
+                                <th>Water</th>
+                            </tr>
+                            <tr>
+                                <td>93%</td>
+                                <td>7%</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section>
                         <h4>Data Set Preprocessing: Auxilary Image Layers: Gradient Based Image Layer</h4>
                         <p class="fragment">
                             Using a sliding window, a gradient is computed by taking the scaled value between 0 and 255 of 
@@ -283,6 +297,14 @@
                             <li class="fragment"><b>Output Image Size:</b> 248x248 pixels</li>
                         </ul>
                     </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Data Set Size</h4>
+                        <p class="fragment">
+                            Due to the time it takes to run both the Gradient and 
+                            Regression Based image generation functions, as well as to 
+                            train each of the models, we limited our dataset to 2,000 images.
+                        </p>
+                    </section>
                 </section>
                 <section>
                     <section>
@@ -319,10 +341,17 @@
                         <p>Example with 4 down-sample &amp; up-sample layers</p>
                     </section>
                     <section>
-                        <h4>Model: SegNet Variant</h4>
+                        <h4>Model: Custom SegNet Variant</h4>
                         <img data-src="images/network.png"/>
                         <p>Kernel Size 3x3</p>
                         <p>3 down-sample &amp; up-sample layers</p>
+                    </section>
+                    <section>
+                        <h4>Model Varians</h4>
+                        <ul>
+                            <li class="fragment"><b>Control (No Aux Image Layer):</b> Our control model. The base Custom SegNet Variant previously described. Takes RGB, NIR, and NDVI image layers as input.</li>
+                            <li class="fragment"><b>Gradient Model:</b> A modified version of the control that takes an additional layer generated via the Gradient process previously described.</li>
+                            <li class="fragment"><b>Regression Model:</b> A modified version of the control that takes an additional layer generated via the Regression process previously described.</li>
                     </section>
                 </section>
                 <section>
@@ -334,11 +363,11 @@
                         <ul>
                             <li class="fragment">Trained on 90% of availiable image swatches
                                 <ul>
-                                    <li class="fragment">approx. 72,000 image swatches</li>
+                                    <li class="fragment">1,800 image swatches</li>
                                 </ul>
                             </li>
                             <li class="fragment">Batches of 15</li>
-                            <li class="fragment">25 Epochs</li>
+                            <li class="fragment">3 Epochs</li>
                             <li class="fragment">Checkpoints are saved every 100 steps</li>
                         </ul>
                     </section>
@@ -347,11 +376,15 @@
                         <ul>
                             <li class="fragment">Evaluation is done on the remaining 10% of availiable image swatches
                                 <ul>
-                                    <li class="fragment">approx. 8,000 image swatches</li>
+                                    <li class="fragment">200 image swatches</li>
                                 </ul>
                             </li>
                             <li class="fragment">The checkpoint with the highest evaluation accuracy is selected</li>
                         </ul>
+                    </section>
+                    <section>
+                        <h4>Special Note</h4>
+                        <p class="fragment">Training and Testing sets are generated once and then remain the same for all models.</p>
                     </section>
                 </section>
                 <section>
