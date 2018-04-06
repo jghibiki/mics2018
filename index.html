@@ -43,35 +43,6 @@
                         </small>
                     </p>
                 </section>
-                <section >
-                    <h2>Overview</h2>
-                    <ul>
-                        <li class="fragment">
-                            Terminology
-                        </li>
-                        <li class="fragment">
-                            Introduction 
-                        </li>
-                        <li class="fragment">
-                            Previous Work
-                        </li>
-                        <li class="fragment">
-                            Data Set Preprocessing
-                        </li>
-                        <li class="fragment">
-                            Model
-                        </li>
-                        <li class="fragment">
-                            Training &amp; Evaluation
-                        </li>
-                        <li class="fragment">
-                            Results and Observations 
-                        </li>
-                        <li class="fragment">
-                            Future Work
-                        </li>
-                    </ul>
-                </section>
                 <section>
                     <section>
                         <h2>Terminology</h2>
@@ -83,8 +54,8 @@
                         </p>
                         <p class="fragment">Useful for:</p>
                         <ul>
-                            <li class="fragment">Scene labeling for autonomous driving</li>
-                            <li class="fragment">Inferring relationships between objects in an image.</li>
+                            <li class="fragment">Scene labeling</li>
+                            <li class="fragment">Inferring relationships in an image.</li>
                         </ul>
                     </section>
                     <section>
@@ -107,33 +78,25 @@
                     </section>
                     <section>
                         <h3>Terminology</h3>
-                        <p>
-                            <b>Orthoimagery:</b> An aerial photograph where corrections have been made for various displacements such as building tilt and scale variations caused by terrain relief. 
-                        </p>
-                    </section>
-                    <section>
-                        <h3>Terminology</h3>
+                        <b>Orthoimagery:</b>
+                        <small>"Fixes" various displacements such as building tilt and scale variations caused by terrain relief.
+                        </small>
+                        <div>
                         <image style="height:50%; width:50%" data-src="images/ortho_imagery_example.png">
                     </section>
                     <section>
                         <h3>Terminology</h3>
-                        <p>
-                            <b>Convolutional Neural Network (CNN):</b> a type of neural network where the connectivity pattern of it's neurons is inspired by the organization of the visual cortex of a cat.
-                        </p>
+                        <b>Convolutional Neural Network (CNN)</b>
                         <p class="fragment">Useful for:</p>
                         <ul>
-                            <li class="fragment">Scene labeling for autonomous driving</li>
-                            <li class="fragment">Inferring relationships between objects in an image</li>
+                            <li class="fragment">Scene labeling</li>
                             <li class="fragment">Whole-image classification</li>
                         </ul>
                     </section>
                     <section>
                         <h3>Terminology</h3>
-                        <p>
-                            <b>Auxiliary Preprocessed Image Layer:</b> An image layer produced by performing some operation on existing image layers that were created from raw image sensor recordings.
-                        </p>
-                        <p class="fragment">Example: Normalized Difference Vegetation Index</p>
-                        <p class="fragment">Generated using the raw Red and Near-Inrared image layers.</p>
+                        <b>Auxiliary Preprocessed Image Layer</b> 
+                        <p class="fragment">Example: Normalized Difference Vegetation Index(NDVI)</p>
                     </section>
                 </section>
                 <section>
@@ -185,14 +148,15 @@
                     </section>
                     <section>
                         <h4>Introduction: What do convolutional neural networks learn?</h4>
-                        <ul>
-                            <li class="fragment">Are there certain kinds of patterns they cannot learn, or learn too slowly to be effective?</li>
-                            <li class="fragment">Does the inclusion of image layers that are generated from the original source image help or hurt the model?</li>
-                        </ul>
+                        <hr>
+                        <p class="fragment">Are there certain kinds of patterns they cannot learn, or learn too slowly to be effective?</p>
+                        <hr>
+                        <p class="fragment">Does the inclusion of image layers that are generated from the original source image help or hurt the model?</p>
+                        <hr>
                     </section>
                     <section>
                         <h4>Introduction: Goal</h4>
-                        <p><em>Test whether the inclusion of several different auxilary image layers, generated from the base Red, Green, Blue, Near-Infrared(NIR), and Normalized Difference Vegetation Index(NDVI) help or hurt the classification accuracy and qualitative quality of the model's classifications.</em></p>
+                        <p>Test whether the inclusion of several different auxilary image layers, generated from the base RGB, NIR, and NDVI layers, serves to help or hurt the classification accuracy and qualitative quality of the model's classifications.</p>
                     </section>
                 </section>
                 <section>
@@ -202,8 +166,8 @@
                     <section>
                         <h4>Previous Work</h2>
                         <ul>
-                            <li class="fragment">Focused on identifying roads or buildings.</li>
-                            <li class="fragment">Apparently little research into identifying crops or other agricultural features</li>
+                            <li class="fragment">Focus on roads or buildings.</li>
+                            <li class="fragment">Little research into identifying agricultural features</li>
                             <li class="fragment">Per-pixel classifications of orthoimagery fall under the realm of scene recognition.
                                 <ul><li class="fragment">Orthoimagery features tend to lack well defined boundaries</li></ul> 
                             </li>
@@ -499,34 +463,7 @@
                     </section>
                 </section>
                 <section>
-                    <section>
-                        <h2>Future Work</h2>
-                    </section>
-                    <section>
-                        <h4>Future Work</h4>
-                        <ul>
-                            <li class="fragment">K-Fold Cross Validation</li>
-                            <li class="fragment">Find a way to manage the discrepancy between the label dataset and classification
-                                <ul>
-                                    <li class="fragment">Find which fields in the NASS classifications were ground truthed
-                                        <ul>
-                                            <li class="fragment">Ground truthing is based on the June Agricultural Survey</li>
-                                            <li class="fragment">Unfortunately this information is classified.</li>
-                                        </ul>
-                                    </li>
-                                    <li class="fragment">Find a new classification data set?
-                                        <ul>
-                                            <li class="fragment">National Land Cover Database (NLCD)
-                                                <ul>
-                                                    <li class="fragment">Less focused on agriculture</li>
-                                                </ul>
-                                            </li>
-                                        <ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </section>
+                    <h2>Conclusion</h2>
                 </section>
                 <section>
                     <h2>Thank You</h2>
