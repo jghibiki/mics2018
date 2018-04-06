@@ -50,7 +50,7 @@
                     <section>
                         <h3>Terminology</h3>
                         <p>
-                            <b>Per-pixel image classifications:</b> Classifying each pixel of an image.
+                            <b>Per-pixel image classifications</b> 
                         </p>
                         <p class="fragment">Useful for:</p>
                         <ul>
@@ -61,7 +61,7 @@
                     <section>
                         <h3>Terminology</h3>
                         <p>
-                            <b>Land-Use Classification:</b> Classifications of what a given tract of land is used for.
+                            <b>Land-Use Classification</b>
                         </p>
                         <p class="fragment">Potential uses:</p>
                         <ul>
@@ -90,13 +90,14 @@
                         <p class="fragment">Useful for:</p>
                         <ul>
                             <li class="fragment">Scene labeling</li>
-                            <li class="fragment">Whole-image classification</li>
+                            <li class="fragment">Image classification</li>
                         </ul>
                     </section>
                     <section>
                         <h3>Terminology</h3>
                         <b>Auxiliary Preprocessed Image Layer</b> 
                         <p class="fragment">Example: Normalized Difference Vegetation Index(NDVI)</p>
+                        <p class="fragment">$ NDVI = \frac{NIR-RED}{NIR+RED} $</p>
                     </section>
                 </section>
                 <section>
@@ -106,7 +107,7 @@
                     <section>
                         <h4>Introduction: Technology, Imagery and Data</h4>
                         <ul>
-                            <li class="fragment">Cost of satellites and drones is decreasing</li>
+                            <li class="fragment">Cost of satellites and drones is decreasing.</li>
                             <li class="fragment">Cost of orthoimagery decreasing</li>
                             <li class="fragment">Amount of availiable orthoimagry increasing</li>
                             <li class="fragment">Amount and quality of labeled or annotated orthoimagery has not kept pace</li>
@@ -117,15 +118,19 @@
                         <b>National Agricultural Imagery Program (NAIP):</b>
                         <ul>
                             <li class="fragment">Provides imagery spanning the majority of the continental United States</li>
-                            <li class="fragment">Imagery captured at 1 meter Ground Sample Distance (GSD)</li>
-                            <li class="fragment">Imagery consists of red, green, blue, and near-infrared image layers</li>
+                            <li class="fragment">1 meter Ground Sample Distance (GSD)</li>
+                            <li class="fragment"> 
+                                <span style="color:red">Red</span>, 
+                                <span style="color:green">Green</span>, 
+                                <span style="color:blue">Blue</span>, and 
+                                <span style="color:red">NIR</span> image layers</li>
                         </ul>
                     </section>
                     <section>
                         <h4>Introduction: Availiable Data</h4>
                         <b>National Agricultural Statistics Service (NASS) Land-Use Classifications:</b>
                         <ul>
-                            <li class="fragment">Land-Use classifications for the continental United States</li>
+                            <li class="fragment">Continental United States</li>
                             <li class="fragment">Low resolution accuracy compared to NAIP imagery. 
                                 <ul>
                                     <li class="fragment">1 NASS pixel represents a 50 square meter area in the NAIP Imagery</li>
@@ -147,7 +152,7 @@
                         <img style="height:50%; width:50%" data-src="images/poor_labels_3.png" />
                     </section>
                     <section>
-                        <h4>Introduction: What do convolutional neural networks learn?</h4>
+                        <h4>Introduction: What do CNNs learn?</h4>
                         <hr>
                         <p class="fragment">Are there certain kinds of patterns they cannot learn, or learn too slowly to be effective?</p>
                         <hr>
@@ -164,7 +169,7 @@
                         <h2>Previous Work</h2>
                     </section>
                     <section>
-                        <h4>Previous Work</h2>
+                        <h4>Previous Work: Selecting a CNN Model</h2>
                         <ul>
                             <li class="fragment">Focus on roads or buildings.</li>
                             <li class="fragment">Little research into identifying agricultural features</li>
@@ -193,8 +198,8 @@
                     <section>
                         <h4>Data Set Preprocessing: Data Sets</h4>
                         <ul>
-                            <li class="fragment"><b>Images:</b> National Agricultural Imagery Program (NAIP) Imagery</li>
-                            <li class="fragment"><b>Ground Truths:</b> National Agricultural Statistics Service (NASS) Land-use classifications</li>
+                            <li class="fragment"><b>Images:</b> NAIP Imagery</li>
+                            <li class="fragment"><b>Ground Truths:</b> NASS Land-use classifications</li>
                         </ul>
                         <p class="fragment">Images clipped into 256x256 swatches</p>
                     </section>
@@ -213,7 +218,7 @@
                         </table>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Gradient Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Gradient Image Layer</h4>
                         <p class="fragment">
                             Using a sliding window, a gradient is computed by taking the scaled value between 0 and 255 of 
                             the largest difference in pixel intensity in the window.
@@ -225,7 +230,7 @@
                         </p>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Gradient Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Gradient Image Layer</h4>
                         <ul>
                             <li class="fragment"><b>Input Image Layer:</b> NDVI</li>
                             <li class="fragment"><b>Window Size:</b> 8x8 pixels</li>
@@ -233,7 +238,7 @@
                         </ul>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Regression Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Regression Image Layer</h4>
                         <p class="fragment">
                             Using a sliding window, take the slope of the line calculated by taking the linear-regression between
                             two bands using the pixels that fall within the window.
@@ -245,7 +250,7 @@
                         </p>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Regression Based Image Layer</h4>
+                        <h4>Data Set Preprocessing: Regression Image Layer</h4>
                         <p class="fragment">
                             Implementation based off of the paper <em>Multi-scalar Analysis of Geospacial Agricultural 
                             Data for Sustainabiliy</em> which introduces a means of allowing larger sliding windows without 
@@ -253,7 +258,10 @@
                         </p>
                     </section>
                     <section>
-                        <h4>Data Set Preprocessing: Auxiliary Image Layers: Regression Based Image Layer</h4>
+                        <img data-src="images/dentons_paper.png">
+                    </section>
+                    <section>
+                        <h4>Data Set Preprocessing: Regression Image Layer</h4>
                         <ul>
                             <li class="fragment"><b>Input Image Layer 1:</b> Red</li>
                             <li class="fragment"><b>Input Image Layer 2:</b> NIR</li>
@@ -264,9 +272,13 @@
                     <section>
                         <h4>Data Set Preprocessing: Data Set Size</h4>
                         <p class="fragment">
-                            Due to the time it takes to run both the Gradient and 
-                            Regression Based image generation functions, as well as to 
-                            train each of the models, we limited our dataset to 2,000 images.
+                            Limited dataset to 2,000.
+                        </p>
+                        <p class="fragment">
+                            Generating the aux images takes ~1.5 hours per type.
+                        </p>
+                        <p class="fragment">
+                            Training model takes 4-6 hours for 3 epochs.
                         </p>
                     </section>
                 </section>
@@ -489,8 +501,15 @@
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/math/math.js', async: true }
+				],
+
+                math: {
+                    mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+                    config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+                },
+
 			});
 
 		</script>
